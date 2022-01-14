@@ -14,29 +14,34 @@
      <div class="container-fluid">
     <a class="navbar-brand" href="#">C.Clothes</a>
   </div>
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-  Add new product</button>
-    <div class="modal fade" id="update-modal${i}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-       </div>
-       <div class="modal-body">
-        product <input type="text" id="update-input${i}" value="${product.title}"/>
-        category<input type="text" id="update-continent${i}" value="${product.category}"/>
-       </div>
-       <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-         <button type="button" class="btn btn-primary" onclick="updateProduct(${i})" data-bs-toggle="modal" data-bs-target="#update-modal${i}">Save changes</button>
-       </div>
-     </div>
-   </div>
- </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add a new product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          TITLE <input type="text" id="addTitle"/> <br>
+          CATEGORY <select name="category" id="addCategory"><br>
+            <option value="select">-select-</option><br>
+              <option value="tops">tops</option>
+              <option value="bottoms">bottoms</option>
+              <option value="jackets">jackets</option>
+              <option value="dresses">dresses</option>
+            </select>
+      </select><br>
+      PRICE<input type="text" id="addPrice"/><br>
+      IMG LINK<input type="text" id="addImg"/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" onclick="createProducts()" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </nav>
-
-      </nav>
      
 
     <form action="javascript:void(0)">
@@ -52,6 +57,7 @@
           <ul id="products"></ul>
 </body>
 <script src='./script.js'></script>
+<script src="./cart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 </html>

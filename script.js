@@ -39,8 +39,6 @@ function readProducts(products){
    </div>
   </div>
 
-
-
    <div class="modal fade" id="update-modal${i}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

@@ -48,15 +48,15 @@ function readProducts(products){
         </div>
         <div class="modal-body">
       TITLE<input type="text" id="update-title${i}"/> <br>
-      CATEGORY<select name="category" id="update-category${i}"><br>
+      CATEGORY<select name="category" id="updateCategory${i}"><br>
           <option value="select">-select one-</option><br>
           <option value="tops">tops</option>
           <option value="bottoms">bottoms</option>
           <option value="jackets">jackets</option>
           <option value="dresses">dresses</option>
     </select><br>
-    PRICE<input type="text" id="update-price${i}" value=""/><br>
-    IMG LINK<input type="text" id="update-img${i}" value=""/><br>
+    PRICE<input type="text" id="updatePrice${i}" value=""/><br>
+    IMG LINK<input type="text" id="updateImg${i}" value=""/><br>
 
         </div>
         <div class="modal-footer">
@@ -103,10 +103,10 @@ function deleteProduct(i) {
 
 //update//
 function updateProduct(i) {
-  let title = document.querySelector(`#addTitle${i}`).value;
-  let category = document.querySelector(`#addCategory${i}`).value;
-  let price = document.querySelector(`#addPrice${i}`).value;
-  let img = document.querySelector(`#addImg${i}`).value;
+  let title = document.querySelector(`#updateTitle${i}`).value;
+  let category = document.querySelector(`#updateCategory${i}`).value;
+  let price = document.querySelector(`#updatePrice${i}`).value;
+  let img = document.querySelector(`#updateImg${i}`).value;
   try {
     if (!product) throw new Error("No product to update!!!");
     products[i] = {

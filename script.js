@@ -23,6 +23,8 @@ let products = [
 }
 ]
 
+// let cart = JSON.parse(localStorage.getItem("cart")) ? JSON.parse(localStorage.getItem("cart")) : [];
+
 // read
 
 function readProducts(products){
@@ -36,6 +38,8 @@ function readProducts(products){
     <p class = "card-text">${product.price}</p>
     <button class="btn btn-danger" onclick="deleteproducts(${i})">Delete</button>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update-modal${i}">Update</button>
+    <button class="btn btn-dark" onclick="#addToCart()">Add to cart</button>
+  
    </div>
   </div>
 
@@ -71,25 +75,26 @@ function readProducts(products){
   `});
 };
 
-readProducts(products)
+readProducts(products);
+showCartBadge();
 
-function createProduct(i) {
+function createProduct() {
   let title = document.querySelector("#addTitle").value;
   let price = document.querySelector("#addPrice").value;
   let category = document.querySelector("#addCategory").value;
   let img = document.querySelector("#addImg").value;
+  try {
+    if (!products) throw new Error("No country to add!!!");
   products.push({
     title,
     category,
     price,
-    img
+    img,
   });
   localStorage.setItem("products", JSON.stringify(products));
   readProducts(prodcts);
   document.querySelector("#products").value = "";
-  try {
-    if (!country) throw new Error("No country to add!!!");
-  } catch (err) {
+}catch (err) {
     alert(err);
   }
 }
@@ -113,7 +118,7 @@ function updateProduct(i) {
     title,
     price,
     category,
-    img
+    img,
     };
     localStorage.setItem("products", JSON.stringify(products));
     readProducts(products);
@@ -122,4 +127,78 @@ function updateProduct(i) {
   }
 }
 
+function addToCart(i) {
+  let qty = document.querySelector(`#addToCart${i}`).value;
+  let added = false;
+  cart.forEach((product) =>{
+  if (product.title == products[i].title){
+    alert(
+      `You have successfully added ${qty} ${products[i].title} to the cart`
+    );
+    product.qty = parseInt(product.qty) + parseInt(qty);
+    added = true;
+  }
+});
 
+  if (!added) {
+    cart.push({ ...products[i], qty});
+    alert(
+      `You have successfully added ${qty} ${products[i].title} to the cart`
+    );
+  }
+ showCartBadge();
+  
+ localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+//update cart
+function showCartBadge() {
+  document.querySelector("badge").innerHTML = cart ? cart.length: "";
+}
+
+// sort by category
+function sortCategory() {
+  let category = document.querySelector("#sortCategory").value;
+
+  if(category =="All") {
+    return readProducts(products);
+  }
+
+  let foundProducts = products.filter((product) =>{
+    return product.category == category;
+  });
+
+  readProducts(foundProducts);
+  console.log(foundProducts);
+}
+
+// sort by name
+
+function sortName() {
+  let direction = document.querySelector("#sortName").value;
+
+  let sortedProducts = products.sort((a,b) => {
+    if (a.title.toLowerCase() < b.title.toLowerCase()){
+    return -1;
+  }
+  return 0;
+
+});
+
+if(direction == "descending") sortedProducts.reverse();
+console.log(sortedProducts);
+readProducts(products);
+} 
+
+//sort by price
+
+function sortPrice() {
+  let direction = document.querySelector("#sortPrice").value;
+
+  let sortedProducts = products.sort((a, b) => a.price - b.price);
+
+  console.log(sortedProducts);
+
+  if (direction == "descending") sortedProducts.reverse();
+  readProducts(sortedProducts);
+}

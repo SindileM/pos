@@ -23,7 +23,7 @@ let products = [
 }
 ]
 
-// let cart = JSON.parse(localStorage.getItem("cart")) ? JSON.parse(localStorage.getItem("cart")) : [];
+let cart = JSON.parse(localStorage.getItem("cart")) ? JSON.parse(localStorage.getItem("cart")) : [];
 
 // read
 
@@ -38,6 +38,7 @@ function readProducts(products){
     <p class = "card-text">${product.price}</p>
     <button class="btn btn-danger" onclick="deleteproducts(${i})">Delete</button>
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update-modal${i}">Update</button>
+    <input type="number" class="form-control" value=1 min=1 id="addToCart${i}">
     <button class="btn btn-dark" onclick="#addToCart()">Add to cart</button>
   
    </div>
@@ -84,7 +85,7 @@ function createProduct() {
   let category = document.querySelector("#addCategory").value;
   let img = document.querySelector("#addImg").value;
   try {
-    if (!products) throw new Error("No country to add!!!");
+    if (!products) throw new Error("No product to add!!!");
   products.push({
     title,
     category,

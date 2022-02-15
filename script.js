@@ -23,6 +23,8 @@ let products = [
 }
 ]
 
+// let cart = JSON.parse(localStorage.getItem("cart")) ? JSON.parse(localStorage.getItem("cart")) : [];
+
 // read
 
 function readProducts(products){
@@ -34,8 +36,10 @@ function readProducts(products){
    <div class="card-body">
     <h5 class="card-title">${product.title}</h5>
     <p class = "card-text">${product.price}</p>
-    <button class="btn btn-danger" onclick="deleteProduct(${i})">Delete</button>
-    <button class="btn btn-primary" data-bs-toggle="modal"   onclick="updateProduct(${i})">Update</button>
+    <button class="btn btn-danger" onclick="deleteproducts(${i})">Delete</button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update-modal${i}">Update</button>
+    <button class="btn btn-dark" onclick="#addToCart()">Add to cart</button>
+  
    </div>
   </div>
 
@@ -71,25 +75,26 @@ function readProducts(products){
   `});
 };
 
-readProducts(products)
+readProducts(products);
+showCartBadge();
 
-function createProduct(i) {
+function createProduct() {
   let title = document.querySelector("#addTitle").value;
   let price = document.querySelector("#addPrice").value;
   let category = document.querySelector("#addCategory").value;
   let img = document.querySelector("#addImg").value;
+  try {
+    if (!products) throw new Error("No country to add!!!");
   products.push({
     title,
     category,
     price,
-    img
+    img,
   });
   localStorage.setItem("products", JSON.stringify(products));
   readProducts(prodcts);
   document.querySelector("#products").value = "";
-  try {
-    if (!country) throw new Error("No country to add!!!");
-  } catch (err) {
+}catch (err) {
     alert(err);
   }
 }

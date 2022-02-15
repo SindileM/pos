@@ -10,14 +10,14 @@
   
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" mb-3 fixed-top>
      <div class="container-fluid">
     <a class="navbar-brand" href="#">C.Clothes</a>
   </div>
   <ul class="navbar-nav mb-2 mb-lg-0 mr-auto">
     <li class="nav-item">
       <a
-        class="btn btn-primary me-3"
+        class="btn btn-primary me-3 active"
         aria-current="page"
         href="./index.html"
         >Home</a
@@ -28,11 +28,7 @@
         class="btn btn-primary active position-relative"
         href=".//cart.html"
         >Cart
-        <span
-          id="badge"
-          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-        ></span
-      ></a>
+      </a>
     </li>
   </ul>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -43,21 +39,21 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
         </div>
         <div class="modal-body">
-          TITLE <input type="text" id="addTitle"/> <br>
-          CATEGORY <select name="category" id="addCategory"><br>
+          TITLE <input type="text" name="addTitle" id="addTitle"/> <br>
+          CATEGORY <select name="addCategory" id="addCategory"><br>
             <option value="select">-select-</option><br>
               <option value="tops">tops</option>
               <option value="bottoms">bottoms</option>
               <option value="jackets">jackets</option>
               <option value="dresses">dresses</option>
             </select>
-      </select><br>
+            <br>
       PRICE<input type="text" id="addPrice"/><br>
       IMG LINK<input type="text" id="addImg"/>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" onclick="createProducts()" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
+          <button type="button" onclick="createProduct()" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
@@ -65,6 +61,42 @@
 </nav>
      
 
+<div class="container d-flex justify-content-end mb-3 mt-5 pt-4">
+  <div class="d-flex w-25 ms-3">
+    <label for="" class="form-label">Sort by category</label>
+    <select
+      class="form-select"
+      name=""
+      id="sortCategory"
+      onchange="sortCategory()"
+    >
+      <option value="All">All</option>
+      <option value="Fruit"></option>
+      <option value="Vegetables">Vegetables</option>
+      <option value="Meat">Meat</option>
+    </select>
+  </div>
+  <div class="d-flex w-25 ms-3">
+    <label for="" class="form-label">Sort name</label>
+    <select class="form-select" name="" id="sortName" onchange="sortName()">
+      <option value="ascending">Ascending</option>
+      <option value="descending">Descending</option>
+    </select>
+  </div>
+  <div class="d-flex w-25 ms-3">
+    <label for="" class="form-label">Sort price</label>
+    <select
+      class="form-select"
+      name=""
+      id="sortPrice"
+      onchange="sortPrice()"
+    >
+      <option value="ascending">Ascending</option>
+      <option value="descending">Descending</option>
+    </select>
+  </div>
+</div>
+<div id="products" class="container d-flex mb-3"></div>
     <form action="javascript:void(0)">
         <!-- <input type="text" id="addProduct" placeholder="Enter new country"></input> -->
         <!-- <select name="category" id="addCategory">

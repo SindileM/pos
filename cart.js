@@ -1,97 +1,80 @@
 const cart = JSON.parse(localStorage.getItem("cart")) ? JSON.parse(localStorage.getItem("cart")) : [];
 
-console.log(cart);
-function readCart(cart) {
-    document.querySelector("#cart").innerHTML = "";
+
+function readCart(cart){
+  document.querySelector("#cart").innerHTML ="";
+
+  cart.forEach((product,i)=>{
+      document.querySelector("#cart").innerHTML += `
+      <div class="card mb-3" >
+  <div class="row g-0">
+  <div class="col-md-4">
+      <img src="${product.img}" class="img-fluid rounded-start" alt="...">
+  </div>
+  <div class="col-md-8">
+      <div class="card-body">
+      <h5 class="card-title">${product.title}</h5>
+      <p class="card-text">price: R${product.price}</p>
+      <input type="number" min=1 value=${product.QTY} id="updateCartQTY${i}" onchange="updateCart(${i})"/>
+      <p>R${parseInt(product.QTY) * parseFloat(product.price)}</p>
+      <button class="btn btn-danger" onclick="deleteCart(${i})">remove</button>
+  </div>
+  </div>
+  </div>
+</div>
+      `;
+  });
+
+  document.querySelector("#cart").innerHTML += `
+  <h1 class="total">your total is R${calculateTotal()}</h1>
+  <button class="btn btn-primary " onclick="checkout()">checkout</button>
+  `
+}
+readCart(cart)
+
+// delete from cart //
+
+function deleteCart(i){
+  cart.splice(i,1)
+  localStorage.setItem("cart",JSON.stringify(cart));
+  readCart(cart);
 }
 
-let total = cart.reduce((total, product) => {
-    return total + product.price * product.qty;
-},0)
-.toFixed(2);
+// update from cart //
 
-cart.forEach((product,i)=> {
-    document.querySelector("#cart").innerHTML += `
-    <div class ="card mb-3 w-100 position-relative" >
-    <button type="button" class="position-absolute top-0 start-100 translate-middle badge btn btn-danger" onclick="removeFromCart(${position})">X</button>
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src="${product.img}" class="img-fluid rounded-start" alt="...">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body d-flex flex-column container">
-          <h5 class="card-title mb-3">${product.title}</h5>
-          <div class="d-flex mb-3 justify-content-between">
-            <p class="card-text">Individual price: </p>
-            <span>R${product.price}<span>
-          </div>
-          <div class="d-flex mb-3 justify-content-between">
-            <label class="form-label">Quantity:</label>
-            <input type="number" min=1 id="remove${i}" value=${ product.qty} onchange="updateCart(${i})" />
-          </div>
-          <div class="card-footer bg-white d-flex justify-content-between  p-0 pt-3">
-            <p>Total Cost: </p>
-            <span>R${(parseFloat(product.price) * parseInt(product.qty) ).toFixed(2)}</span>
-          </div>
-        </div> 
-      </div>
-    </div>
-  </div>
-`;
-});
+function updateCart(i){
+let QTY =document.querySelector(`#updateCartQTY${i}`).value;
 
-showCartBadge();
-document.querySelector("#cart-footer").innerHTML += `
-<h3>Total cost: R${total}</h3>
-<button class="btn btn-primary btn-lg" onclick="checkout()">
-  Checkout
-</button>
-`;
+cart[i] = {...cart[i],QTY}
+localStorage.setItem("cart",JSON.stringify(cart));
+readCart(cart);
+}
 
-function showCartBadge(){
-    document.querySelector("#badge").innerHTML = cart ? cart.length : "";
-  }
-  
-  readCart(cart);
-  
-  // update
-  function updateCart(position) {
-    let qty = document.querySelector(`#remove${position}`).value;
-    cart[position] = { ...cart[position], qty };
-    localStorage.setItem("cart", JSON.stringify(cart));
-    readCart(cart);
-  }
-  
-  // remove
-  function removeFromCart(position) {
-    let confirmation = confirm(
-      "Remove product from cart?"
-    );
-  
+// calculate the total //
+
+function calculateTotal(){
+  let total = 0;
+  cart.forEach(product => {
+      total =  total + product.price * product.QTY
+  })
+  return total.toFixed(2);
+}
+
+//Checkout
+
+function checkout() {
+  let total = calculateTotal()
+  console.log(total)
+
+  try {
+    if (parseInt(total) == 0) throw new Error("nothing in cart");
+    let confirmation = confirm(`Total payment needed: R${calculateTotal()}`);
     if (confirmation) {
-      cart.splice(position, 1);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      readCart(cart);
+      cart.length = 0;
+      localStorage.removeItem("cart");
     }
+    readCart(cart);
+  } catch (err) {
+    alert(err);
   }
-  
-  function checkout() {
-    let total = cart
-      .reduce((total, product) => {
-        return total + product.price * product.qty;
-      }, 0)
-      .toFixed(2);
-    try {
-      if (parseInt(total) == 0) throw new Error("Nothing in cart!!!");
-      let confirmation = confirm(`Total: R${total}`);
-  
-      if (confirmation) {
-        cart.length = 0;
-        localStorage.removeItem("cart");
-        readCart(cart);
-      }
-    } catch (err) {
-      alert(err);
-    }
-  }
-
+}
